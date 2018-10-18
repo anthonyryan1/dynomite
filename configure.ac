@@ -73,7 +73,7 @@ AC_CHECK_LIB([m], [pow])
 AC_CHECK_LIB([pthread], [pthread_create])
 AC_CHECK_LIB([ssl], [SSL_read])
 AC_CHECK_LIB([crypto], [OPENSSL_init])
-
+AC_CHECK_LIB([yaml], [yaml_parser_initialize], [], [AC_MSG_ERROR([libyaml was not found])])
 
 # Checks for library functions
 AC_FUNC_FORK
@@ -194,19 +194,13 @@ AS_IF([test "x$disable_stats" = xyes],
   [AC_DEFINE([HAVE_STATS], [1], [Define to 1 if stats is not disabled])])
 AC_MSG_RESULT($disable_stats)
 
-# Untar the yaml-0.1.4 in contrib/ before config.status is rerun
-AC_CONFIG_COMMANDS_PRE([tar xvfz contrib/yaml-0.1.4.tar.gz -C contrib])
-
-# Call yaml-0.1.4 ./configure recursively
-AC_CONFIG_SUBDIRS([contrib/yaml-0.1.4])
-
 # Define Makefiles
 AC_CONFIG_FILES([Makefile
                  contrib/Makefile
                  src/Makefile
                  src/hashkit/Makefile
                  src/proto/Makefile
-                 src/entropy/Makefile                 
+                 src/entropy/Makefile
                  src/seedsprovider/Makefile
                  src/event/Makefile
                  src/tools/Makefile])
